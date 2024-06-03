@@ -22,11 +22,17 @@ type AllComponentes = {
 type tabelaProps = {
     getComponents: AllComponentes[];
     id: number;
+    nomeTabela: string;
 }
 
 export default function TabelaCrud(props: tabelaProps) {
 
     const componenteId = props.getComponents.find((c: AllComponentes) => c.id_component === props.id);
+    // const itemArray = props.getComponents.filter((c:AllComponentes) => {
+    //     c.Category.filter((c:CategoryType) => {
+    //         c.item
+    //     })
+    // })
 
     return (
         <div className="w-full border-[2px] border-zinc-300 bg-white rounded-[32px] p-7 mt-5">
@@ -48,7 +54,7 @@ export default function TabelaCrud(props: tabelaProps) {
             <div className="w-full mt-[80px]">
                 <div className="w-full flex justify-between border-b-[2px] border-zinc-300 font-bold">
                     <span className="w-full text-center">Código</span>
-                    <span className="w-full text-center">Componente</span>
+                    <span className="w-full text-center">{props.nomeTabela}</span>
                     <span className="w-full text-center">Estoque</span>
                     <span className="w-full text-center">Editar</span>
                     <span className="w-full text-center">Deletar</span>

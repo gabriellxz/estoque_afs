@@ -7,6 +7,9 @@ import Authenticated from "./security/authenticated";
 import Home from "./pages/Dashboard/Home/home";
 import CreateComponentes from "./pages/Dashboard/Componentes/createComponentes";
 import CreateComputador from "./pages/Dashboard/Computador/createComputador";
+import CreateNotebook from "./pages/Dashboard/Notebook/createNotebook";
+import CreateMateriais from "./pages/Dashboard/Materiais/createMateriais";
+import CreateCabos from "./pages/Dashboard/Cabos/createCabos";
 
 function App(): JSX.Element {
 
@@ -24,6 +27,9 @@ function App(): JSX.Element {
               <Route path="início" element={<Home/>}/>
               <Route path="criar-componente" element={<CreateComponentes/>}/>
               <Route path="criar-computador" element={<CreateComputador/>}/>
+              <Route path="criar-notebook" element={<CreateNotebook/>}/>
+              <Route path="criar-material" element={<CreateMateriais/>}/>
+              <Route path="criar-cabos" element={<CreateCabos/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -80,9 +80,15 @@ export default function Aside() {
                                     <li>
                                         <Link to={"/dashboard/criar-computador"}>Computador</Link>
                                     </li>
-                                    <li>Notebook</li>
-                                    <li>Materiais</li>
-                                    <li>Cabos</li>
+                                    <li>
+                                        <Link to={"/dashboard/criar-notebook"}>Notebook</Link>
+                                    </li>
+                                    <li>
+                                        <Link to={"/dashboard/criar-material"}>Materiais</Link>
+                                    </li>
+                                    <li>
+                                        <Link to={"/dashboard/criar-cabos"}>Cabos</Link>
+                                    </li>
                                 </motion.ul>
                             }
                         </AnimatePresence>

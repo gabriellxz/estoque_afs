@@ -33,7 +33,7 @@ export default function useGetAllComponentes() {
                         }
                     })
 
-                    console.log(response);
+                    // console.log(response);
                     setComponentes(response.data);
                 } catch (error) {
                     console.log(error);
@@ -42,7 +42,7 @@ export default function useGetAllComponentes() {
         }
 
         getComponents();
-    }, [])
+    }, [componentes])
 
     return {
         componentes

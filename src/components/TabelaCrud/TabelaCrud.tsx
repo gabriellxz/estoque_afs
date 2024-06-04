@@ -50,7 +50,7 @@ export default function TabelaCrud(props: tabelaProps) {
     return (
         <div className="w-full border-[2px] border-zinc-300 bg-white rounded-[32px] p-7 mt-5">
             <div>
-                <div className="w-full flex justify-between">
+                <div className="w-full flex flex-col gap-2 sm:flex-row justify-between">
                     <span className="w-full flex items-center gap-6">
                         <span className="flex max-w-[350px] w-full rounded-[10px] bg-white px-4 py-1 gap-5 border-[2px] border-greenAFS-100">
                             <SearchIcon />
@@ -61,7 +61,7 @@ export default function TabelaCrud(props: tabelaProps) {
                             <FilterIcon />
                         </button>
                     </span>
-                    <button className="max-w-[110px] w-full flex justify-center font-semibold bg-greenAFS-200 items-center text-white px-4 py-1 rounded-[10px]" onClick={() => openModal(true)}>Novo +</button>
+                    <button className="sm:max-w-[110px] w-full flex justify-center font-semibold bg-greenAFS-200 items-center text-white px-4 py-1 rounded-[10px]" onClick={() => openModal(true)}>Novo +</button>
                 </div>
             </div>
             <div className="w-full mt-[80px]">

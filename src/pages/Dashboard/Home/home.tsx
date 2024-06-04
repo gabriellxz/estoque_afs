@@ -6,6 +6,7 @@ import componente_img from "../../../assets/estoque.png";
 import { AuthUser } from "../../../context/authContext";
 import { useContext, useEffect, useState } from "react";
 import api from "../../../config/config";
+import Loading from "../../../components/Loading/loading";
 
 type ItemType = {
     nome: string;
@@ -26,9 +27,12 @@ type AllComponentes = {
 export default function Home() {
     const { user, token } = useContext(AuthUser);
     const [allComponentes, setAllComponentes] = useState<AllComponentes[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         async function getAllComponentes() {
+            setLoading(true);
+
             if (token) {
                 try {
                     const response = await api.get("/components", {
@@ -37,10 +41,12 @@ export default function Home() {
                         }
                     })
 
+                    setLoading(false);
                     console.log(response.data)
                     setAllComponentes(response.data);
 
                 } catch (error) {
+                    setLoading(false);
                     console.log(error);
                 }
             }
@@ -67,17 +73,19 @@ export default function Home() {
             <div className="mt-[35px]">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                     {
-                        allComponentes.map((c: AllComponentes) => (
-                            <div key={c.id_component} className="flex items-center w-full bg-white p-6 rounded-[20px] gap-5">
-                                <img src={componente_img} alt="componente_img" />
-                                <div className="flex flex-col">
-                                    <span className="text-greenAFS-100 text-xl">{c.nome_component}</span>
-                                    <span className="text-2xl font-semibold">
-                                        {calculateTotalStock(c.Category)}
-                                    </span>
+                        loading ? <Loading /> : (
+                            allComponentes.map((c: AllComponentes) => (
+                                <div key={c.id_component} className="flex items-center w-full bg-white p-6 rounded-[20px] gap-5">
+                                    <img src={componente_img} alt="componente_img" />
+                                    <div className="flex flex-col">
+                                        <span className="text-greenAFS-100 text-xl">{c.nome_component}</span>
+                                        <span className="text-2xl font-semibold">
+                                            {calculateTotalStock(c.Category)}
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            ))
+                        )
                     }
                 </div>
             </div>

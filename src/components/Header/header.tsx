@@ -1,15 +1,23 @@
 import user_icon from "../../assets/user_icon.png";
 import { useContext } from "react";
 import { AuthUser } from "../../context/authContext";
+import BarsIcon from "../../svg/bars-icon";
 
-export default function Header() {
+type propsBarsIcon = {
+    toggleAside: () => void;
+}
+
+export default function Header(props: propsBarsIcon) {
 
     const { user } = useContext(AuthUser);
 
     return (
         <header className="flex justify-between items-center w-full border-b border-zinc-400 px-[10px] sm:px-[50px] py-5">
-            <div>
+            <div className="flex items-center gap-5">
                 <span className="text-2xl text-greenAFS-200 font-bold">Dashboard</span>
+                <span className="lg:hidden" onClick={props.toggleAside}>
+                    <BarsIcon />
+                </span>
             </div>
             <div className="flex gap-[40px] text-zinc-600">
                 <div className="hidden sm:flex sm:flex-col text-right justify-center">

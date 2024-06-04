@@ -4,6 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AuthUser } from "../../context/authContext";
 
+type statePropsAside = {
+    stateAside: boolean;
+}
+
 const SquareGroup = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -30,77 +34,164 @@ const Logout = () => {
 
 
 
-export default function Aside() {
+export default function Aside(props: statePropsAside) {
 
     // const location = useLocation()
     const { logout } = useContext(AuthUser);
     const [openEstoque, setOpenEstoque] = useState<boolean>(false);
 
     return (
-        <nav className="flex flex-col items-center bg-greenAFS-200 max-w-[150px] sm:max-w-[200px] w-full h-screen py-5 select-none">
-            <div>
-                <img src={logo_afs} alt="logo_afs" />
-            </div>
-            <ul className="flex flex-col h-full justify-between mt-[50px]">
-                <div className="flex flex-col gap-[50px]">
-                    <Link to={"/dashboard/início"} className={"flex items-center text-white text-xl gap-3 cursor-pointer"}>
-                        <SquareGroup />
-                        <span>Início</span>
-                    </Link>
-                    <li className="flex flex-col text-white text-xl gap-5 cursor-pointer" onClick={() => setOpenEstoque(!openEstoque)}>
-                        <div className="flex gap-3 items-center">
-                            <Box />
-                            <span>Estoque</span>
+        <>
+            {/* TELAS PEQUENAS */}
+            <AnimatePresence>
+                {
+                    props.stateAside && <motion.nav className="lg:hidden absolute flex flex-col items-center bg-greenAFS-200 max-w-[150px] sm:max-w-[200px] w-full h-screen py-5 select-none"
+                        initial={{
+                            translateX: -150
+                        }}
+                        animate={{
+                            translateX: 0
+                        }}
+                        exit={{
+                            translateX: -150
+                        }}
+                        transition={{
+                            duration: 0.5
+                        }}
+                    >
+                        <div>
+                            <img src={logo_afs} alt="logo_afs" />
                         </div>
-                        <AnimatePresence>
-                            {openEstoque &&
-                                <motion.ul className="flex flex-col gap-8 text-base list-disc"
-                                    initial={{
-                                        opacity: 0,
-                                        translateY: -50
-                                    }}
+                        <ul className="flex flex-col h-full justify-between mt-[50px]">
+                            <div className="flex flex-col gap-[50px]">
+                                <Link to={"/dashboard/início"} className={"flex items-center text-white text-xl gap-3 cursor-pointer"}>
+                                    <SquareGroup />
+                                    <span>Início</span>
+                                </Link>
+                                <li className="flex flex-col text-white text-xl gap-5 cursor-pointer" onClick={() => setOpenEstoque(!openEstoque)}>
+                                    <div className="flex gap-3 items-center">
+                                        <Box />
+                                        <span>Estoque</span>
+                                    </div>
+                                    <AnimatePresence>
+                                        {openEstoque &&
+                                            <motion.ul className="flex flex-col gap-8 text-base list-disc"
+                                                initial={{
+                                                    opacity: 0,
+                                                    translateY: -50
+                                                }}
 
-                                    transition={{
-                                        duration: 0.3
-                                    }}
+                                                transition={{
+                                                    duration: 0.3
+                                                }}
 
-                                    animate={{
-                                        opacity: 1,
-                                        translateY: 0
-                                    }}
+                                                animate={{
+                                                    opacity: 1,
+                                                    translateY: 0
+                                                }}
 
-                                    exit={{
-                                        opacity: 0,
-                                        translateY: -50
-                                    }}
-                                >
-                                    <li>
-                                        <Link to={"/dashboard/criar-componente"}>Componentes</Link>
-                                    </li>
-                                    <li>
-                                        <Link to={"/dashboard/criar-computador"}>Computador</Link>
-                                    </li>
-                                    <li>
-                                        <Link to={"/dashboard/criar-notebook"}>Notebook</Link>
-                                    </li>
-                                    <li>
-                                        <Link to={"/dashboard/criar-material"}>Materiais</Link>
-                                    </li>
-                                    <li>
-                                        <Link to={"/dashboard/criar-cabos"}>Cabos</Link>
-                                    </li>
-                                </motion.ul>
-                            }
-                        </AnimatePresence>
-                    </li>
+                                                exit={{
+                                                    opacity: 0,
+                                                    translateY: -50
+                                                }}
+                                            >
+                                                <li>
+                                                    <Link to={"/dashboard/criar-componente"}>Componentes</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to={"/dashboard/criar-computador"}>Computador</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to={"/dashboard/criar-notebook"}>Notebook</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to={"/dashboard/criar-material"}>Materiais</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to={"/dashboard/criar-cabos"}>Cabos</Link>
+                                                </li>
+                                            </motion.ul>
+                                        }
+                                    </AnimatePresence>
+                                </li>
+                            </div>
+                            <div onClick={logout}>
+                                <li className="flex items-center text-red-600 text-xl gap-3 cursor-pointer">
+                                    <Logout />
+                                    <span>Sair</span>
+                                </li>
+                            </div>
+                        </ul>
+                    </motion.nav>
+                }
+            </AnimatePresence>
+
+            {/* TELAS GRANDES */}
+            <nav className="hidden lg:flex flex-col items-center bg-greenAFS-200 max-w-[150px] sm:max-w-[200px] w-full h-screen py-5 select-none">
+                <div>
+                    <img src={logo_afs} alt="logo_afs" />
                 </div>
-                <div onClick={logout}>
-                    <li className="flex items-center text-red-600 text-xl gap-3 cursor-pointer">
-                        <Logout />
-                        <span>Sair</span>
-                    </li>
-                </div>
-            </ul>
-        </nav>
+                <ul className="flex flex-col h-full justify-between mt-[50px]">
+                    <div className="flex flex-col gap-[50px]">
+                        <Link to={"/dashboard/início"} className={"flex items-center text-white text-xl gap-3 cursor-pointer"}>
+                            <SquareGroup />
+                            <span>Início</span>
+                        </Link>
+                        <li className="flex flex-col text-white text-xl gap-5 cursor-pointer" onClick={() => setOpenEstoque(!openEstoque)}>
+                            <div className="flex gap-3 items-center">
+                                <Box />
+                                <span>Estoque</span>
+                            </div>
+                            <AnimatePresence>
+                                {openEstoque &&
+                                    <motion.ul className="flex flex-col gap-8 text-base list-disc"
+                                        initial={{
+                                            opacity: 0,
+                                            translateY: -50
+                                        }}
+
+                                        transition={{
+                                            duration: 0.3
+                                        }}
+
+                                        animate={{
+                                            opacity: 1,
+                                            translateY: 0
+                                        }}
+
+                                        exit={{
+                                            opacity: 0,
+                                            translateY: -50
+                                        }}
+                                    >
+                                        <li>
+                                            <Link to={"/dashboard/criar-componente"}>Componentes</Link>
+                                        </li>
+                                        <li>
+                                            <Link to={"/dashboard/criar-computador"}>Computador</Link>
+                                        </li>
+                                        <li>
+                                            <Link to={"/dashboard/criar-notebook"}>Notebook</Link>
+                                        </li>
+                                        <li>
+                                            <Link to={"/dashboard/criar-material"}>Materiais</Link>
+                                        </li>
+                                        <li>
+                                            <Link to={"/dashboard/criar-cabos"}>Cabos</Link>
+                                        </li>
+                                    </motion.ul>
+                                }
+                            </AnimatePresence>
+                        </li>
+                    </div>
+                    <div onClick={logout}>
+                        <li className="flex items-center text-red-600 text-xl gap-3 cursor-pointer">
+                            <Logout />
+                            <span>Sair</span>
+                        </li>
+                    </div>
+                </ul>
+            </nav>
+        </>
     )
 }

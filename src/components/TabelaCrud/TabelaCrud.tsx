@@ -4,6 +4,7 @@ import TrashIcon from "../../svg/trash-icon";
 import EditIcon from "../../svg/edit-icon";
 import { useState } from "react";
 import ModalCrud from "./ModalCrud/modalCrud";
+import { ToastContainer } from "react-toastify";
 
 type ItemType = {
     nome: string;
@@ -97,8 +98,10 @@ export default function TabelaCrud(props: tabelaProps) {
                     // getComponentes={props.getComponents}
                     id={props.id}
                     // componentId={componenteId}
+                    nomeTabela={props.nomeTabela}
                 />
             }
+            <ToastContainer/>
         </div>
     )
 }

@@ -22,9 +22,12 @@ export default function useGetAllComponentes() {
 
     const { token } = useContext(AuthUser);
     const [componentes, setComponentes] = useState<AllComponentes[]>([]);
+    // const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         async function getComponents() {
+            // setLoading(true);
+
             if (token) {
                 try {
                     const response = await api.get("/components", {
@@ -32,11 +35,12 @@ export default function useGetAllComponentes() {
                             "Authorization": "Bearer " + JSON.parse(token)
                         }
                     })
-
+                    // setLoading(false)
                     // console.log(response);
                     setComponentes(response.data);
                 } catch (error) {
                     console.log(error);
+                    // setLoading(false)
                 }
             }
         }
@@ -45,6 +49,7 @@ export default function useGetAllComponentes() {
     }, [componentes])
 
     return {
-        componentes
+        componentes,
+        // loading
     }
 }

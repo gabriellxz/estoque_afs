@@ -2,6 +2,8 @@ import FilterIcon from "../../svg/filter-icon";
 import SearchIcon from "../../svg/svg-icon";
 import TrashIcon from "../../svg/trash-icon";
 import EditIcon from "../../svg/edit-icon";
+import { useState } from "react";
+import ModalCrud from "./ModalCrud/modalCrud";
 
 type ItemType = {
     nome: string;
@@ -21,7 +23,7 @@ type AllComponentes = {
 
 type tabelaProps = {
     getComponents: AllComponentes[];
-    id: number;
+    id: number | null;
     nomeTabela: string;
 }
 
@@ -33,6 +35,16 @@ export default function TabelaCrud(props: tabelaProps) {
     //         c.item
     //     })
     // })
+
+    const [open, setOpen] = useState<boolean>(false);
+
+    function openModal(open: boolean) {
+        setOpen(open);
+    }
+
+    function closeModal(close: boolean) {
+        setOpen(close);
+    }
 
     return (
         <div className="w-full border-[2px] border-zinc-300 bg-white rounded-[32px] p-7 mt-5">
@@ -48,7 +60,7 @@ export default function TabelaCrud(props: tabelaProps) {
                             <FilterIcon />
                         </button>
                     </span>
-                    <button className="max-w-[110px] w-full flex justify-center font-semibold bg-greenAFS-200 items-center text-white px-4 py-1 rounded-[10px]">Novo +</button>
+                    <button className="max-w-[110px] w-full flex justify-center font-semibold bg-greenAFS-200 items-center text-white px-4 py-1 rounded-[10px]" onClick={() => openModal(true)}>Novo +</button>
                 </div>
             </div>
             <div className="w-full mt-[80px]">
@@ -79,6 +91,14 @@ export default function TabelaCrud(props: tabelaProps) {
                     }
                 </div>
             </div>
+            {
+                open && <ModalCrud
+                    closeModal={closeModal}
+                    // getComponentes={props.getComponents}
+                    id={props.id}
+                    // componentId={componenteId}
+                />
+            }
         </div>
     )
 }

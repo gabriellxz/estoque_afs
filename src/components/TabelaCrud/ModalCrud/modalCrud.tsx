@@ -117,6 +117,7 @@ export default function ModalCrud(props: propsModal) {
                     });
                     setLoading(false);
                     props.closeModal(false);
+                    window.location.reload();
                 }
             } catch (error) {
                 toast.error(`Não foi possível cadastrar um ${props.nomeTabela}`, {

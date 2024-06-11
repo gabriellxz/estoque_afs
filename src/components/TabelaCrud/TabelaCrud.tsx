@@ -2,9 +2,19 @@ import FilterIcon from "../../svg/filter-icon";
 import SearchIcon from "../../svg/svg-icon";
 import TrashIcon from "../../svg/trash-icon";
 import EditIcon from "../../svg/edit-icon";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalCrud from "./ModalCrud/modalCrud";
 import { ToastContainer } from "react-toastify";
+import { AuthUser } from "../../context/authContext";
+import api from "../../config/config";
+import useGetAllComponentes from "../../hooks/useGetAllComponentes";
+
+type companyType = {
+    categoryId: number;
+    estoque: number;
+    id_item: number;
+    nome: string;
+}
 
 type ItemType = {
     nome: string;
@@ -30,12 +40,12 @@ type tabelaProps = {
 
 export default function TabelaCrud(props: tabelaProps) {
 
+    const { token } = useContext(AuthUser);
+    const { componentes } = useGetAllComponentes();
+    const [items, setItems] = useState<companyType[]>([]);
+    // const [selectedItem, setSelectedItem] = useState<companyType>();
+    const [filteredItems, setFilteredItems] = useState<companyType[]>([]);
     const componenteId = props.getComponents.find((c: AllComponentes) => c.id_component === props.id);
-    // const itemArray = props.getComponents.filter((c:AllComponentes) => {
-    //     c.Category.filter((c:CategoryType) => {
-    //         c.item
-    //     })
-    // })
 
     const [open, setOpen] = useState<boolean>(false);
 
@@ -45,6 +55,64 @@ export default function TabelaCrud(props: tabelaProps) {
 
     function closeModal(close: boolean) {
         setOpen(close);
+    }
+
+    useEffect(() => {
+
+        async function getItems() {
+            if (token) {
+                try {
+                    const response = await api.get("/Product", {
+                        headers: {
+                            "Authorization": "Bearer " + JSON.parse(token)
+                        }
+                    })
+
+                    setItems(response.data.Company);
+                    // console.log(response.data.Company);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }
+
+
+        getItems();
+    }, []);
+
+    useEffect(() => {
+        if (componenteId) {
+            const itemNames = new Set();
+            componenteId.Category.forEach((cat: CategoryType) => {
+                cat.item.forEach((item: ItemType) => {
+                    itemNames.add(item.nome);
+                });
+            });
+
+            const filtered = items.filter((item: companyType) => itemNames.has(item.nome));
+            setFilteredItems(filtered);
+
+            // console.log("filtered items: ", filtered);
+        }
+    }, [props.id, componentes]);
+
+    async function deleteItem(id: number) {
+
+        // setSelectedItem(i);
+
+        if (token) {
+            try {
+                const response = await api.delete(`/Product/${id}`, {
+                    headers: {
+                        "Authorization": "Bearer " + JSON.parse(token)
+                    }
+                })
+
+                console.log(response)
+            } catch (error) {
+                console.log(error);
+            }
+        }
     }
 
     return (
@@ -74,20 +142,18 @@ export default function TabelaCrud(props: tabelaProps) {
                 </div>
                 <div className="overflow-y-scroll h-[300px]">
                     {
-                        componenteId?.Category.map((c: CategoryType) => (
-                            c.item?.map((i: ItemType) => (
-                                <div className="w-full flex justify-between border-b-[2px] border-zinc-300 py-5">
-                                    <span className="w-full flex justify-center">nulo</span>
-                                    <span className="w-full flex justify-center">{i.nome}</span>
-                                    <span className="w-full flex justify-center">{i.estoque}</span>
-                                    <span className="w-full flex justify-center">
-                                        <EditIcon />
-                                    </span>
-                                    <span className="w-full flex justify-center">
-                                        <TrashIcon />
-                                    </span>
-                                </div>
-                            ))
+                        filteredItems.map((i: companyType) => (
+                            <div className="w-full flex justify-between border-b-[2px] border-zinc-300 py-5" key={i.id_item}>
+                                <span className="w-full flex justify-center">nulo</span>
+                                <span className="w-full flex justify-center">{i.nome}</span>
+                                <span className="w-full flex justify-center">{i.estoque}</span>
+                                <span className="w-full flex justify-center">
+                                    <EditIcon />
+                                </span>
+                                <span className="w-full flex justify-center" onClick={() => deleteItem(i.id_item)}>
+                                    <TrashIcon />
+                                </span>
+                            </div>
                         ))
                     }
                 </div>
@@ -101,7 +167,7 @@ export default function TabelaCrud(props: tabelaProps) {
                     nomeTabela={props.nomeTabela}
                 />
             }
-            <ToastContainer/>
+            <ToastContainer />
         </div>
     )
 }

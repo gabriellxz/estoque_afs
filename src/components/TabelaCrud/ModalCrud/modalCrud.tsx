@@ -180,7 +180,7 @@ export default function ModalCrud(props: propsModal) {
                             </span>
                         </div>
                     </div>
-                    <div className="flex items-center gap-5">
+                    <div className="flex w-full items-center gap-5">
                         <span className="text-zinc-400">Estoque</span>
                         <input type="number" className="sm:max-w-[200px] w-full py-2 px-3 border border-greenAFS-200 rounded-lg outline-none" onChange={handleEstoque} />
                     </div>

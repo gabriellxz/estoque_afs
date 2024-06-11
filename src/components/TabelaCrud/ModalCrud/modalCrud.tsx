@@ -155,7 +155,7 @@ export default function ModalCrud(props: propsModal) {
         `} onSubmit={postNew}>
                 <div className="pb-5 flex flex-col gap-[30px] border-b border-zinc-400 px-5">
                     <span className="text-greenAFS-200 font-semibold text-xl">Adicionar novo</span>
-                    <div className="flex items-center gap-8">
+                    <div className="flex flex-col sm:items-center sm:flex-row gap-8">
                         {catState.map((cat) => (
                             <div key={cat.id} className="flex items-center gap-2">
                                 <input
@@ -170,7 +170,7 @@ export default function ModalCrud(props: propsModal) {
                         ))}
                     </div>
                 </div>
-                <div className="flex w-full items-center px-5 gap-[70px] py-10 border-b border-zinc-400">
+                <div className="flex flex-col w-full sm:flex-row items-center px-5 gap-[20px] sm:gap-[70px] py-10 border-b border-zinc-400">
                     <div className="flex w-full items-center gap-5">
                         <span className="text-zinc-400">Nome</span>
                         <div className="flex w-full items-center py-2 px-3 border border-greenAFS-200 rounded-lg">
@@ -190,7 +190,7 @@ export default function ModalCrud(props: propsModal) {
                         <button onClick={() => props.closeModal(false)} className="text-red-500 text-xl">Voltar</button>
                     </div>
                     <div>
-                        {loading ? <Loading/> : <button className="w-full flex justify-center font-semibold bg-greenAFS-200 items-center text-white px-9 py-1 rounded-[10px]">Salvar</button>}
+                        {loading ? <Loading /> : <button className="w-full flex justify-center font-semibold bg-greenAFS-200 items-center text-white px-9 py-1 rounded-[10px]">Salvar</button>}
                     </div>
                 </div>
             </form>

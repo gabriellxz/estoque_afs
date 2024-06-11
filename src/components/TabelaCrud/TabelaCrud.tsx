@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { AuthUser } from "../../context/authContext";
 import api from "../../config/config";
 import useGetAllComponentes from "../../hooks/useGetAllComponentes";
+import Loading from "../Loading/loading";
 
 type companyType = {
     categoryId: number;
@@ -44,6 +45,7 @@ export default function TabelaCrud(props: tabelaProps) {
     const { componentes } = useGetAllComponentes();
     const [items, setItems] = useState<companyType[]>([]);
     // const [selectedItem, setSelectedItem] = useState<companyType>();
+    const [loading, setLoading] = useState<boolean>(false);
     const [filteredItems, setFilteredItems] = useState<companyType[]>([]);
     const componenteId = props.getComponents.find((c: AllComponentes) => c.id_component === props.id);
 
@@ -98,7 +100,9 @@ export default function TabelaCrud(props: tabelaProps) {
 
     async function deleteItem(id: number) {
 
+        setLoading(true);
         // setSelectedItem(i);
+
 
         if (token) {
             try {
@@ -108,8 +112,10 @@ export default function TabelaCrud(props: tabelaProps) {
                     }
                 })
 
+                setLoading(false);
                 console.log(response)
             } catch (error) {
+                setLoading(false);
                 console.log(error);
             }
         }
@@ -151,7 +157,7 @@ export default function TabelaCrud(props: tabelaProps) {
                                     <EditIcon />
                                 </span>
                                 <span className="w-full flex justify-center" onClick={() => deleteItem(i.id_item)}>
-                                    <TrashIcon />
+                                    {loading ? <Loading /> : <TrashIcon />}
                                 </span>
                             </div>
                         ))

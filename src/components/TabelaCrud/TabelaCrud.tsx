@@ -62,6 +62,9 @@ export default function TabelaCrud(props: tabelaProps) {
     useEffect(() => {
 
         async function getItems() {
+
+            setLoading(true);
+
             if (token) {
                 try {
                     const response = await api.get("/Product", {
@@ -70,9 +73,11 @@ export default function TabelaCrud(props: tabelaProps) {
                         }
                     })
 
+                    setLoading(false);
                     setItems(response.data.Company);
                     // console.log(response.data.Company);
                 } catch (error) {
+                    setLoading(false);
                     console.log(error);
                 }
             }
@@ -112,11 +117,13 @@ export default function TabelaCrud(props: tabelaProps) {
                     }
                 })
 
-                setLoading(false);
+                // setLoading(false);
                 console.log(response)
             } catch (error) {
-                setLoading(false);
+                // setLoading(false);
                 console.log(error);
+            } finally {
+                setLoading(false);
             }
         }
     }
@@ -134,6 +141,9 @@ export default function TabelaCrud(props: tabelaProps) {
                             Filtrar
                             <FilterIcon />
                         </button>
+                        <span>
+                            {loading ? <Loading /> : ""}
+                        </span>
                     </span>
                     <button className="sm:max-w-[110px] w-full flex justify-center font-semibold bg-greenAFS-200 items-center text-white px-4 py-1 rounded-[10px]" onClick={() => openModal(true)}>Novo +</button>
                 </div>
@@ -146,21 +156,25 @@ export default function TabelaCrud(props: tabelaProps) {
                     <span className="w-full text-center">Editar</span>
                     <span className="w-full text-center">Deletar</span>
                 </div>
-                <div className="overflow-y-scroll h-[300px]">
+                <div className="overflow-y-scroll h-[300px] relative">
                     {
-                        filteredItems.map((i: companyType) => (
-                            <div className="w-full flex justify-between border-b-[2px] border-zinc-300 py-5" key={i.id_item}>
-                                <span className="w-full flex justify-center">nulo</span>
-                                <span className="w-full flex justify-center">{i.nome}</span>
-                                <span className="w-full flex justify-center">{i.estoque}</span>
-                                <span className="w-full flex justify-center">
-                                    <EditIcon />
-                                </span>
-                                <span className="w-full flex justify-center" onClick={() => deleteItem(i.id_item)}>
-                                    {loading ? <Loading /> : <TrashIcon />}
-                                </span>
-                            </div>
-                        ))
+                        loading ? <Loading /> : (
+                            filteredItems.length < 1 ? <span className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">Não existem {props.nomeTabela} cadastrados</span> : (
+                                filteredItems.map((i: companyType) => (
+                                    <div className="w-full flex justify-between border-b-[2px] border-zinc-300 py-5" key={i.id_item}>
+                                        <span className="w-full flex justify-center">nulo</span>
+                                        <span className="w-full flex justify-center">{i.nome}</span>
+                                        <span className="w-full flex justify-center">{i.estoque}</span>
+                                        <span className="w-full flex justify-center">
+                                            <EditIcon />
+                                        </span>
+                                        <span className="w-full flex justify-center" onClick={() => deleteItem(i.id_item)}>
+                                            <TrashIcon />
+                                        </span>
+                                    </div>
+                                ))
+                            )
+                        )
                     }
                 </div>
             </div>

@@ -43,6 +43,9 @@ export default function ModalCrud(props: propsModal) {
     const [category, setCategory] = useState<CategoryType[]>([]);
 
     async function getCategory() {
+
+        setLoading(true);
+
         if (token) {
             try {
                 const response = await api.get("/Category", {
@@ -51,10 +54,12 @@ export default function ModalCrud(props: propsModal) {
                     }
                 })
 
+                setLoading(false);
                 console.log("id do componente: ", props.id);
                 console.log("Array de categorias: ", response.data);
                 setCategory(response.data);
             } catch (error) {
+                setLoading(false);
                 console.log(error);
             }
         }
@@ -156,18 +161,22 @@ export default function ModalCrud(props: propsModal) {
                 <div className="pb-5 flex flex-col gap-[30px] border-b border-zinc-400 px-5">
                     <span className="text-greenAFS-200 font-semibold text-xl">Adicionar novo</span>
                     <div className="flex flex-col sm:items-center sm:flex-row gap-8">
-                        {catState.map((cat) => (
-                            <div key={cat.id} className="flex items-center gap-2">
-                                <input
-                                    type="radio"
-                                    id={`category-${cat.id}`}
-                                    value={cat.id}
-                                    onChange={handleCategory}
-                                    name="categoryId"
-                                />
-                                <label htmlFor={`category-${cat.id}`}>{cat.nome}</label>
-                            </div>
-                        ))}
+                        {
+                            loading ? <Loading /> : (
+                                catState.map((cat) => (
+                                    <div key={cat.id} className="flex items-center gap-2">
+                                        <input
+                                            type="radio"
+                                            id={`category-${cat.id}`}
+                                            value={cat.id}
+                                            onChange={handleCategory}
+                                            name="categoryId"
+                                        />
+                                        <label htmlFor={`category-${cat.id}`}>{cat.nome}</label>
+                                    </div>
+                                ))
+                            )
+                        }
                     </div>
                 </div>
                 <div className="flex flex-col w-full sm:flex-row items-center px-5 gap-[20px] sm:gap-[70px] py-10 border-b border-zinc-400">

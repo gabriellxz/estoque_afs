@@ -162,7 +162,7 @@ export default function TabelaCrud(props: tabelaProps) {
                             filteredItems.length < 1 ? <span className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">Não existem {props.nomeTabela} cadastrados</span> : (
                                 filteredItems.map((i: companyType) => (
                                     <div className="w-full flex justify-between border-b-[2px] border-zinc-300 py-5" key={i.id_item}>
-                                        <span className="w-full flex justify-center">nulo</span>
+                                        <span className="w-full flex justify-center">{i.id_item}</span>
                                         <span className="w-full flex justify-center">{i.nome}</span>
                                         <span className="w-full flex justify-center">{i.estoque}</span>
                                         <span className="w-full flex justify-center">

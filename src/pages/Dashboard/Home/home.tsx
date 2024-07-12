@@ -7,61 +7,44 @@ import { AuthUser } from "../../../context/authContext";
 import { useContext, useEffect, useState } from "react";
 import api from "../../../config/config";
 import Loading from "../../../components/Loading/loading";
-
-type ItemType = {
-    nome: string;
-    estoque: number;
-}
-
-type CategoryType = {
-    nome: string;
-    item: ItemType[];
-}
-
-type AllComponentes = {
-    id_component: number;
-    nome_component: string;
-    Category: CategoryType[];
-}
+import { Componente } from "../../../types/componente";
+import { Items } from "../../../types/items";
 
 export default function Home() {
     const { user, token } = useContext(AuthUser);
-    const [allComponentes, setAllComponentes] = useState<AllComponentes[]>([]);
+    const [componente, setComponente] = useState<Componente[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        async function getAllComponentes() {
+        async function getComponentes() {
+
             setLoading(true);
 
-            if (token) {
-                try {
-                    const response = await api.get("/components", {
+            try {
+                if (token) {
+                    const response = await api.get("/Componentes", {
                         headers: {
-                            "Authorization": "Bearer " + JSON.parse(token)
+                            "Authorization": "Bearer " + token
                         }
                     })
 
-                    setLoading(false);
-                    console.log(response.data)
-                    setAllComponentes(response.data);
-
-                } catch (error) {
-                    setLoading(false);
-                    console.log(error);
+                    console.log(response);
+                    setComponente(response.data);
+                } else {
+                    console.log("Sua sessão expirou...");
                 }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
             }
         }
 
-        getAllComponentes();
-    }, []);
+        getComponentes();
+    }, [])
 
-    // Função para calcular o total de estoque de um componente
-    const calculateTotalStock = (categories: CategoryType[]) => {
-        return categories.reduce((total, category) => {
-            return total + category.item.reduce((categoryTotal, item) => {
-                return categoryTotal + item.estoque;
-            }, 0);
-        }, 0);
+    function calcularTotalItem(items: Items[]): number {
+        return items.reduce((total, item) => total + item.estoque, 0);
     }
 
     return (
@@ -73,19 +56,17 @@ export default function Home() {
             <div className="mt-[35px]">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                     {
-                        loading ? <Loading /> : (
-                            allComponentes.map((c: AllComponentes) => (
-                                <div key={c.id_component} className="flex items-center w-full bg-white p-6 rounded-[20px] gap-5">
-                                    <img src={componente_img} alt="componente_img" />
-                                    <div className="flex flex-col">
-                                        <span className="text-greenAFS-100 text-xl">{c.nome_component}</span>
-                                        <span className="text-2xl font-semibold">
-                                            {calculateTotalStock(c.Category)}
-                                        </span>
-                                    </div>
+                        loading ? <Loading /> : componente.map((comp: Componente) => (
+                            <div key={comp.id} className="flex items-center w-full bg-white p-6 rounded-[20px] gap-5">
+                                <img src={componente_img} alt="componente_img" />
+                                <div className="flex flex-col">
+                                    <span className="text-greenAFS-100 text-xl">{comp.nome_componente}</span>
+                                    <span className="text-2xl font-semibold">
+                                        {calcularTotalItem(comp.Items)}
+                                    </span>
                                 </div>
-                            ))
-                        )
+                            </div>
+                        ))
                     }
                 </div>
             </div>

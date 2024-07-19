@@ -16,7 +16,7 @@ export default function Dashboard() {
     return (
         <div className="flex h-screen overflow-hidden">
             {/* {authenticated === true ? <h1>Bem vindo, {user?.name}!</h1> : <h1>Você não tem acesso.</h1>} */}
-            <Aside stateAside={openAside}/>
+            <Aside stateAside={openAside} setAside={setOpenAside}/>
             <div className="w-full">
                 <Header toggleAside={open}/>
                 <div className="p-[10px] sm:p-[40px] bg-slate-100 h-customHeight overflow-auto">

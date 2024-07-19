@@ -6,6 +6,7 @@ import { AuthUser } from "../../context/authContext";
 
 type statePropsAside = {
     stateAside: boolean;
+    setAside: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SquareGroup = () => {
@@ -64,7 +65,7 @@ export default function Aside(props: statePropsAside) {
                         </div>
                         <ul className="flex flex-col h-full justify-between mt-[50px]">
                             <div className="flex flex-col gap-[50px]">
-                                <Link to={"/dashboard/início"} className={"flex items-center text-white text-xl gap-3 cursor-pointer"}>
+                                <Link to={"/dashboard/início"} className={"flex items-center text-white text-xl gap-3 cursor-pointer"} onClick={() => props.setAside(false)}>
                                     <SquareGroup />
                                     <span>Início</span>
                                 </Link>
@@ -96,19 +97,19 @@ export default function Aside(props: statePropsAside) {
                                                 }}
                                             >
                                                 <li>
-                                                    <Link to={"/dashboard/criar-componente"}>Componentes</Link>
+                                                    <Link to={"/dashboard/criar-componente"} onClick={() => props.setAside(false)}>Componentes</Link>
                                                 </li>
                                                 <li>
-                                                    <Link to={"/dashboard/criar-computador"}>Computador</Link>
+                                                    <Link to={"/dashboard/criar-computador"} onClick={() => props.setAside(false)}>Computador</Link>
                                                 </li>
                                                 <li>
-                                                    <Link to={"/dashboard/criar-notebook"}>Notebook</Link>
+                                                    <Link to={"/dashboard/criar-notebook"} onClick={() => props.setAside(false)}>Notebook</Link>
                                                 </li>
                                                 <li>
-                                                    <Link to={"/dashboard/criar-material"}>Materiais</Link>
+                                                    <Link to={"/dashboard/criar-material"} onClick={() => props.setAside(false)}>Materiais</Link>
                                                 </li>
                                                 <li>
-                                                    <Link to={"/dashboard/criar-cabos"}>Cabos</Link>
+                                                    <Link to={"/dashboard/criar-cabos"} onClick={() => props.setAside(false)}>Cabos</Link>
                                                 </li>
                                             </motion.ul>
                                         }

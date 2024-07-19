@@ -49,7 +49,7 @@ export default function CreateComponentes() {
 
     return (
         <>
-            <TabelaCrud componenteTable={<TabelaComponent/>}/>
+            <TabelaCrud componenteTable={<TabelaComponent/>} idComponente={idComponente}/>
         </>
     )
 }

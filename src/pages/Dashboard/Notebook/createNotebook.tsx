@@ -48,6 +48,6 @@ export default function CreateNotebook() {
     }
 
     return (
-        <TabelaCrud componenteTable={<TabelaComponent/>} />
+        <TabelaCrud componenteTable={<TabelaComponent />} idComponente={idComponente} />
     )
 }

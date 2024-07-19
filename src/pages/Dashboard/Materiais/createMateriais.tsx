@@ -48,6 +48,6 @@ export default function CreateMateriais() {
     }
 
     return (
-        <TabelaCrud componenteTable={<TabelaComponent/>}/>
+        <TabelaCrud componenteTable={<TabelaComponent/>} idComponente={idComponente}/>
     )
 }

@@ -5,25 +5,7 @@ import api from "../../../config/config";
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from "react-toastify";
 import Loading from "../../Loading/loading";
-// import { AxiosError, AxiosResponse } from "axios";
-
-type ItemType = {
-    nome: string;
-    estoque: number;
-}
-
-type CategoryType = {
-    id: number;
-    component_id: number;
-    nome: string;
-    item: ItemType[];
-}
-
-// type AllComponentes = {
-//     id_component: number;
-//     nome_component: string;
-//     Category: CategoryType[];
-// }
+import { Category } from "../../../types/category";
 
 type propsModal = {
     closeModal: (open: boolean) => void;
@@ -36,32 +18,30 @@ export default function ModalCrud(props: propsModal) {
     const { token } = useContext(AuthUser);
     const [nome, setNome] = useState<string>("");
     const [estoque, setEstoque] = useState<number>();
-    const [categoryId, setCategoryId] = useState<number>();
-    const [catState, setCatState] = useState<CategoryType[]>([]);
+    const [categoryValue, setCategoryValue] = useState<number>();
     const [loading, setLoading] = useState<boolean>(false);
-    //LÓGICA PARA FILTRAR CATEGORIAS COM O MESMO ID DO COMPONENTE
-    const [category, setCategory] = useState<CategoryType[]>([]);
+    const [category, setCategory] = useState<Category[]>([]);
+    const [loadingCat, setLoadingCat] = useState<boolean>(false);
 
     async function getCategory() {
 
-        setLoading(true);
+        setLoadingCat(true);
 
-        if (token) {
-            try {
-                const response = await api.get("/Category", {
+        try {
+            if (token) {
+                const response = await api.get("/labs-item", {
                     headers: {
                         "Authorization": "Bearer " + JSON.parse(token)
                     }
                 })
 
-                setLoading(false);
-                console.log("id do componente: ", props.id);
-                console.log("Array de categorias: ", response.data);
+                // console.log(response);
                 setCategory(response.data);
-            } catch (error) {
-                setLoading(false);
-                console.log(error);
             }
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setLoadingCat(false);
         }
     }
 
@@ -69,11 +49,7 @@ export default function ModalCrud(props: propsModal) {
         getCategory();
     }, []);
 
-    useEffect(() => {
-        const idCategory = category.filter((c: CategoryType) => c.component_id === props.id);
-        console.log("categorias com o mesmo id do componente: ", idCategory);
-        setCatState(idCategory);
-    }, [category, props.id]);
+
 
     //PEGAR VALORES DE INPUT
     const handleNome = (e: ChangeEvent<HTMLInputElement>) => { setNome(e.target.value); };
@@ -81,10 +57,11 @@ export default function ModalCrud(props: propsModal) {
         const estoqueN: number = parseInt(e.target.value);
         setEstoque(estoqueN);
     }
-    const handleCategory = (e: ChangeEvent<HTMLInputElement>) => {
-        const categoryN: number = parseInt(e.target.value);
-        setCategoryId(categoryN);
+    const handleCategory = (e:ChangeEvent<HTMLInputElement>) => {
+        const catN: number = parseInt(e.target.value);
+        setCategoryValue(catN);
     }
+
 
     //CADASTRAR NOVO
     async function postNew(e: SyntheticEvent) {
@@ -94,12 +71,12 @@ export default function ModalCrud(props: propsModal) {
         if (
             nome !== "" &&
             estoque !== undefined &&
-            category !== undefined
+            categoryValue !== undefined
         ) {
             const data = {
                 nome,
                 estoque,
-                categoryId
+                categoryValue
             }
 
             try {
@@ -162,17 +139,17 @@ export default function ModalCrud(props: propsModal) {
                     <span className="text-greenAFS-200 font-semibold text-xl">Adicionar novo</span>
                     <div className="flex flex-col sm:items-center sm:flex-row gap-8">
                         {
-                            loading ? <Loading /> : (
-                                catState.map((cat) => (
+                            loadingCat ? <Loading /> : (
+                                category.map((cat: Category) => (
                                     <div key={cat.id} className="flex items-center gap-2">
                                         <input
                                             type="radio"
                                             id={`category-${cat.id}`}
                                             value={cat.id}
                                             onChange={handleCategory}
-                                            name="categoryId"
+                                            name="lab_id"
                                         />
-                                        <label htmlFor={`category-${cat.id}`}>{cat.nome}</label>
+                                        <label htmlFor={`category-${cat.id}`}>{cat.nome_lab}</label>
                                     </div>
                                 ))
                             )

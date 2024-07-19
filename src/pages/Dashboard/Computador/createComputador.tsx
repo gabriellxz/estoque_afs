@@ -49,6 +49,6 @@ export default function CreateComputador() {
     }
 
     return (
-        <TabelaCrud componenteTable={<TabelaComponent />} />
+        <TabelaCrud componenteTable={<TabelaComponent />} idComponente={idComponente}/>
     )
 }

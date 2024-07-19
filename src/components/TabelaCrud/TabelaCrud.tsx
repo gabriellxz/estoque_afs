@@ -6,18 +6,19 @@ import { ToastContainer } from "react-toastify";
 
 type PropsTabelaCrud = {
     componenteTable: any;
+    idComponente: number | null;
 }
 
-export default function TabelaCrud(props:PropsTabelaCrud) {
+export default function TabelaCrud(props: PropsTabelaCrud) {
 
     // const { token } = useContext(AuthUser);
     const [openModalState, setOpenModalState] = useState<boolean>(false);
 
-    function openModal(open:boolean) {
+    function openModal(open: boolean) {
         setOpenModalState(open);
     }
 
-    function closeModal(close:boolean) {
+    function closeModal(close: boolean) {
         setOpenModalState(close);
     }
 
@@ -59,7 +60,7 @@ export default function TabelaCrud(props:PropsTabelaCrud) {
                 openModalState && <ModalCrud
                     closeModal={closeModal}
                     // getComponentes={props.getComponents}
-                    id={0}
+                    id={props.idComponente}
                     // componentId={componenteId}
                     nomeTabela={"Tabela"}
                 />

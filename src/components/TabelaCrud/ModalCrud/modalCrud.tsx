@@ -31,7 +31,7 @@ export default function ModalCrud(props: propsModal) {
             if (token) {
                 const response = await api.get("/labs-item", {
                     headers: {
-                        "Authorization": "Bearer " + JSON.parse(token)
+                        "Authorization": "Bearer " + token
                     }
                 })
 
@@ -74,20 +74,22 @@ export default function ModalCrud(props: propsModal) {
             categoryValue !== undefined
         ) {
             const data = {
-                nome,
-                estoque,
-                categoryValue
+                nome_item: nome,
+                estoque: estoque,
+                lab_id: categoryValue,
+                component_id: props.id
             }
+            console.log(data);
 
             try {
                 if (token) {
-                    await api.post("/Product/create", data, {
+                    await api.post("/Item/create", data, {
                         headers: {
-                            "Authorization": "Bearer " + JSON.parse(token)
+                            "Authorization": "Bearer " + token
                         }
                     })
 
-                    toast.success(`${props.nomeTabela} cadastrado com sucesso!`, {
+                    toast.success(`Item cadastrado com sucesso!`, {
                         position: "bottom-right",
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -102,7 +104,7 @@ export default function ModalCrud(props: propsModal) {
                     window.location.reload();
                 }
             } catch (error) {
-                toast.error(`Não foi possível cadastrar um ${props.nomeTabela}`, {
+                toast.error(`Não foi possível cadastrar um item`, {
                     position: "bottom-center",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -113,6 +115,7 @@ export default function ModalCrud(props: propsModal) {
                     theme: "colored"
                 });
                 setLoading(false);
+                console.log(error);
             }
         } else {
             toast.error('Por favor, preencha os campos corretamente.', {

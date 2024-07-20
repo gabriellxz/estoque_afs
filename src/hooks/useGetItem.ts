@@ -20,7 +20,7 @@ export default function useGetItem() {
                 if (token) {
                     const response = await api.get("/Item", {
                         headers: {
-                            "Authorization": "Bearer " + JSON.parse(token)
+                            "Authorization": "Bearer " + token
                         }
                     })
 

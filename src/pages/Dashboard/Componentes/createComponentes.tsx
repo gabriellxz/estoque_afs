@@ -21,10 +21,6 @@ export default function CreateComponentes() {
         // console.log(selectedItem);
     }
 
-    function closeModalEdit(close: boolean) {
-        setModalEditState(close);
-    }
-
     useEffect(() => {
         if (selectedItem !== null) {
             console.log(selectedItem);
@@ -75,7 +71,7 @@ export default function CreateComponentes() {
                 idComponente={idComponente}
                 item={selectedItem}
                 openModalEdit={openModalEditState}
-                closeModalEdit={closeModalEdit}
+                closeModalEdit={setModalEditState}
             />
         </>
     )

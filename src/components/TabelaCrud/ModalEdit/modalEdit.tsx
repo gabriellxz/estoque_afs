@@ -8,7 +8,7 @@ import Loading from "../../Loading/loading";
 import { Category } from "../../../types/category";
 
 type propsModal = {
-    closeModal: (close: false) => void;
+    closeModal: React.Dispatch<React.SetStateAction<boolean>>;
     id: number | null;
     nomeTabela: string;
     idItem: number | null;

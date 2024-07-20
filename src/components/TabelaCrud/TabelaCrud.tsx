@@ -10,7 +10,7 @@ type PropsTabelaCrud = {
     idComponente: number | null;
     item: number | null;
     openModalEdit: boolean;
-    closeModalEdit: (close: boolean) => void;
+    closeModalEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function TabelaCrud(props: PropsTabelaCrud) {
@@ -71,7 +71,7 @@ export default function TabelaCrud(props: PropsTabelaCrud) {
             }
             {
                 props.openModalEdit && <ModalEdit
-                    closeModal={() => props.closeModalEdit}
+                    closeModal={props.closeModalEdit}
                     id={props.idComponente}
                     nomeTabela={""}
                     idItem={props.item}

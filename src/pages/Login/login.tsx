@@ -123,7 +123,7 @@ export default function Login(): JSX.Element {
                             <Input
                                 className="p-2 border-b border-black"
                                 placeholder="Usuário"
-                                type="text"
+                                type="email"
                                 value={email}
                                 onChangeInput={emailChange}
                                 name={"email"}

@@ -13,10 +13,18 @@ export default function CreateComputador() {
     const { handleDelete } = useDelete();
     const { componente, items, loading } = useGetItem();
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const [openModalEditState, setModalEditState] = useState<boolean>(false);
+    const [selectedItem, setSelectedItem] = useState<number | null>(null);
 
     function getIdComponente(nome: string) {
         const component = componente.find((comp: Componente) => comp.nome_componente === nome);
         return component ? component.id : null;
+    }
+
+    function getSelectedItem(itemId: number | undefined) {
+        setSelectedItem(itemId ?? null);
+        setModalEditState(true);
+        // console.log(selectedItem);
     }
 
     const nomeComp = "Computador";
@@ -46,7 +54,7 @@ export default function CreateComputador() {
                                     <span className="w-full flex justify-center">{i.id}</span>
                                     <span className="w-full flex justify-center">{i.nome_item}</span>
                                     <span className="w-full flex justify-center">{i.estoque}</span>
-                                    <span className="w-full flex justify-center">
+                                    <span className="w-full flex justify-center" onClick={() => getSelectedItem(i.id)}>
                                         <EditIcon />
                                     </span>
                                     <span className="w-full flex justify-center" onClick={() => handleDelete(i.id)}>
@@ -66,6 +74,9 @@ export default function CreateComputador() {
             componenteTable={<TabelaComponent />}
             idComponente={idComponente}
             onSearch={handleSearch}
+            closeModalEdit={setModalEditState}
+            item={selectedItem}
+            openModalEdit={openModalEditState}
         />
     )
 }

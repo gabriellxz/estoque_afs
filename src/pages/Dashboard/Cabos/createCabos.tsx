@@ -12,11 +12,19 @@ export default function CreateCabos() {
 
     const { handleDelete } = useDelete();
     const { componente, items, loading } = useGetItem();
+    const [openModalEditState, setModalEditState] = useState<boolean>(false);
+    const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>("");
 
     function getIdComponente(nome: string) {
         const component = componente.find((comp: Componente) => comp.nome_componente === nome);
         return component ? component.id : null;
+    }
+
+    function getSelectedItem(itemId: number | undefined) {
+        setSelectedItem(itemId ?? null);
+        setModalEditState(true);
+        // console.log(selectedItem);
     }
 
     const nomeComp = "Cabos";
@@ -45,7 +53,7 @@ export default function CreateCabos() {
                                     <span className="w-full flex justify-center">{i.id}</span>
                                     <span className="w-full flex justify-center">{i.nome_item}</span>
                                     <span className="w-full flex justify-center">{i.estoque}</span>
-                                    <span className="w-full flex justify-center">
+                                    <span className="w-full flex justify-center" onClick={() => getSelectedItem(i.id)}>
                                         <EditIcon />
                                     </span>
                                     <span className="w-full flex justify-center" onClick={() => handleDelete(i.id)}>
@@ -65,6 +73,9 @@ export default function CreateCabos() {
             componenteTable={<TabelaComponent />}
             idComponente={idComponente}
             onSearch={handleSearch}
+            closeModalEdit={setModalEditState}
+            item={selectedItem}
+            openModalEdit={openModalEditState}
         />
     )
 }

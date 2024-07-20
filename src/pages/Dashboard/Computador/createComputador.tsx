@@ -5,9 +5,11 @@ import EditIcon from "../../../svg/edit-icon";
 import TrashIcon from "../../../svg/trash-icon";
 import Loading from "../../../components/Loading/loading";
 import useGetItem from "../../../hooks/useGetItem";
+import useDelete from "../../../hooks/useDelete";
 
 export default function CreateComputador() {
 
+    const { handleDelete } = useDelete();
     const { componente, items, loading } = useGetItem();
 
     function getIdComponente(nome: string) {
@@ -36,7 +38,7 @@ export default function CreateComputador() {
                                     <span className="w-full flex justify-center">
                                         <EditIcon />
                                     </span>
-                                    <span className="w-full flex justify-center">
+                                    <span className="w-full flex justify-center" onClick={() => handleDelete(i.id)}>
                                         <TrashIcon />
                                     </span>
                                 </div>

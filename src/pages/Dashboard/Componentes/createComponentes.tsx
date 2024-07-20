@@ -5,10 +5,12 @@ import TrashIcon from "../../../svg/trash-icon";
 import Loading from "../../../components/Loading/loading";
 import useGetItem from "../../../hooks/useGetItem";
 import { Componente } from "../../../types/componente";
+import useDelete from "../../../hooks/useDelete";
 
 export default function CreateComponentes() {
 
     const { componente, items, loading } = useGetItem();
+    const { handleDelete } = useDelete();
 
     function getIdComponente(nome: string) {
         const component = componente.find((comp: Componente) => comp.nome_componente === nome);
@@ -35,7 +37,7 @@ export default function CreateComponentes() {
                                     <span className="w-full flex justify-center">
                                         <EditIcon />
                                     </span>
-                                    <span className="w-full flex justify-center">
+                                    <span className="w-full flex justify-center" onClick={() => handleDelete(i.id)}>
                                         <TrashIcon />
                                     </span>
                                 </div>
@@ -49,7 +51,7 @@ export default function CreateComponentes() {
 
     return (
         <>
-            <TabelaCrud componenteTable={<TabelaComponent/>} idComponente={idComponente}/>
+            <TabelaCrud componenteTable={<TabelaComponent />} idComponente={idComponente} />
         </>
     )
 }

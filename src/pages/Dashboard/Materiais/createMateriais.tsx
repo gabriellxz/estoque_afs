@@ -1,5 +1,6 @@
 import Loading from "../../../components/Loading/loading";
 import TabelaCrud from "../../../components/TabelaCrud/TabelaCrud";
+import useDelete from "../../../hooks/useDelete";
 import useGetItem from "../../../hooks/useGetItem";
 import EditIcon from "../../../svg/edit-icon";
 import TrashIcon from "../../../svg/trash-icon";
@@ -8,6 +9,7 @@ import { itemCompany } from "../../../types/itemCompany";
 
 export default function CreateMateriais() {
 
+    const { handleDelete } = useDelete();
     const { componente, items, loading } = useGetItem();
 
     function getIdComponente(nome: string) {
@@ -35,7 +37,7 @@ export default function CreateMateriais() {
                                     <span className="w-full flex justify-center">
                                         <EditIcon />
                                     </span>
-                                    <span className="w-full flex justify-center">
+                                    <span className="w-full flex justify-center" onClick={() => handleDelete}>
                                         <TrashIcon />
                                     </span>
                                 </div>

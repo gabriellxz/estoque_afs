@@ -1,4 +1,4 @@
-import FilterIcon from "../../svg/filter-icon";
+// import FilterIcon from "../../svg/filter-icon";
 import SearchIcon from "../../svg/svg-icon";
 import { useState } from "react";
 import ModalCrud from "./ModalCrud/modalCrud";
@@ -42,10 +42,10 @@ export default function TabelaCrud(props: PropsTabelaCrud) {
                             <SearchIcon />
                             <input type="search" placeholder="Pesquisar" className="w-full placeholder:font-semibold outline-none" value={searchTerm} onChange={handleSearchChange}/>
                         </span>
-                        <button className="flex rounded-[10px] bg-white px-4 py-1 items-center gap-2 border-[2px] border-greenAFS-100 text-greenAFS-100 font-semibold">
+                        {/* <button className="flex rounded-[10px] bg-white px-4 py-1 items-center gap-2 border-[2px] border-greenAFS-100 text-greenAFS-100 font-semibold">
                             Filtrar
                             <FilterIcon />
-                        </button>
+                        </button> */}
                         <span>
                             {/* {loading ? <Loading /> : ""} */}
                         </span>

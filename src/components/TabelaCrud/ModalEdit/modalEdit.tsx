@@ -8,15 +8,16 @@ import Loading from "../../Loading/loading";
 import { Category } from "../../../types/category";
 
 type propsModal = {
-    closeModal: (open: boolean) => void;
+    closeModal: (close: false) => void;
     id: number | null;
     nomeTabela: string;
+    idItem: number | null;
 }
 
-export default function ModalCrud(props: propsModal) {
+export default function ModalEdit(props: propsModal) {
 
     const { token } = useContext(AuthUser);
-    const [nome, setNome] = useState<string>("");
+    const [nome, setNome] = useState<string>();
     const [estoque, setEstoque] = useState<number>();
     const [categoryValue, setCategoryValue] = useState<number>();
     const [loading, setLoading] = useState<boolean>(false);
@@ -57,14 +58,14 @@ export default function ModalCrud(props: propsModal) {
         const estoqueN: number = parseInt(e.target.value);
         setEstoque(estoqueN);
     }
-    const handleCategory = (e:ChangeEvent<HTMLInputElement>) => {
+    const handleCategory = (e: ChangeEvent<HTMLInputElement>) => {
         const catN: number = parseInt(e.target.value);
         setCategoryValue(catN);
     }
 
 
     //CADASTRAR NOVO
-    async function postNew(e: SyntheticEvent) {
+    async function editItem(e: SyntheticEvent) {
         e.preventDefault();
         setLoading(true);
 
@@ -83,13 +84,13 @@ export default function ModalCrud(props: propsModal) {
 
             try {
                 if (token) {
-                    await api.post("/Item/create", data, {
+                    await api.put(`/Item/${props.idItem}`, data, {
                         headers: {
                             "Authorization": "Bearer " + JSON.parse(token)
                         }
                     })
 
-                    toast.success(`Item cadastrado com sucesso!`, {
+                    toast.success(`Item editado com sucesso!`, {
                         position: "bottom-right",
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -104,7 +105,7 @@ export default function ModalCrud(props: propsModal) {
                     window.location.reload();
                 }
             } catch (error) {
-                toast.error(`Não foi possível cadastrar um item`, {
+                toast.error(`Não foi possível editar o item`, {
                     position: "bottom-center",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -137,9 +138,9 @@ export default function ModalCrud(props: propsModal) {
             <form className={`
             max-w-[960px] w-full fixed top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 bg-white 
             rounded-md shadow-sm shadow-zinc-500 pt-[40px] px-[40px]
-        `} onSubmit={postNew}>
+        `} onSubmit={editItem}>
                 <div className="pb-5 flex flex-col gap-[30px] border-b border-zinc-400 px-5">
-                    <span className="text-greenAFS-200 font-semibold text-xl">Adicionar novo</span>
+                    <span className="text-greenAFS-200 font-semibold text-xl">Editar item</span>
                     <div className="flex flex-col sm:items-center sm:flex-row gap-8">
                         {
                             loadingCat ? <Loading /> : (

@@ -3,10 +3,14 @@ import SearchIcon from "../../svg/svg-icon";
 import { useState } from "react";
 import ModalCrud from "./ModalCrud/modalCrud";
 import { ToastContainer } from "react-toastify";
+import ModalEdit from "./ModalEdit/modalEdit";
 
 type PropsTabelaCrud = {
     componenteTable: any;
     idComponente: number | null;
+    item: number | null;
+    openModalEdit: boolean;
+    closeModalEdit: (close: boolean) => void;
 }
 
 export default function TabelaCrud(props: PropsTabelaCrud) {
@@ -63,6 +67,14 @@ export default function TabelaCrud(props: PropsTabelaCrud) {
                     id={props.idComponente}
                     // componentId={componenteId}
                     nomeTabela={"Tabela"}
+                />
+            }
+            {
+                props.openModalEdit && <ModalEdit
+                    closeModal={() => props.closeModalEdit}
+                    id={props.idComponente}
+                    nomeTabela={""}
+                    idItem={props.item}
                 />
             }
             <ToastContainer />

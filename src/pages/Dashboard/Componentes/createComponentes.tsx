@@ -6,11 +6,30 @@ import Loading from "../../../components/Loading/loading";
 import useGetItem from "../../../hooks/useGetItem";
 import { Componente } from "../../../types/componente";
 import useDelete from "../../../hooks/useDelete";
+import { useEffect, useState } from "react";
 
 export default function CreateComponentes() {
 
     const { componente, items, loading } = useGetItem();
     const { handleDelete } = useDelete();
+    const [selectedItem, setSelectedItem] = useState<number | null>(null);
+    const [openModalEditState, setModalEditState] = useState<boolean>(false);
+
+    function getSelectedItem(itemId: number | undefined) {
+        setSelectedItem(itemId ?? null);
+        setModalEditState(true);
+        // console.log(selectedItem);
+    }
+
+    function closeModalEdit(close: boolean) {
+        setModalEditState(close);
+    }
+
+    useEffect(() => {
+        if (selectedItem !== null) {
+            console.log(selectedItem);
+        }
+    }, [selectedItem]);
 
     function getIdComponente(nome: string) {
         const component = componente.find((comp: Componente) => comp.nome_componente === nome);
@@ -34,7 +53,7 @@ export default function CreateComponentes() {
                                     <span className="w-full flex justify-center">{i.id}</span>
                                     <span className="w-full flex justify-center">{i.nome_item}</span>
                                     <span className="w-full flex justify-center">{i.estoque}</span>
-                                    <span className="w-full flex justify-center">
+                                    <span className="w-full flex justify-center" onClick={() => getSelectedItem(i.id)}>
                                         <EditIcon />
                                     </span>
                                     <span className="w-full flex justify-center" onClick={() => handleDelete(i.id)}>
@@ -51,7 +70,13 @@ export default function CreateComponentes() {
 
     return (
         <>
-            <TabelaCrud componenteTable={<TabelaComponent />} idComponente={idComponente} />
+            <TabelaCrud
+                componenteTable={<TabelaComponent />}
+                idComponente={idComponente}
+                item={selectedItem}
+                openModalEdit={openModalEditState}
+                closeModalEdit={closeModalEdit}
+            />
         </>
     )
 }

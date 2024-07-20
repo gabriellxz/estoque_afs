@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Loading from "../../../components/Loading/loading";
 import TabelaCrud from "../../../components/TabelaCrud/TabelaCrud";
 import useDelete from "../../../hooks/useDelete";
@@ -11,6 +12,7 @@ export default function CreateNotebook() {
 
     const { handleDelete } = useDelete();
     const { componente, items, loading } = useGetItem();
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
     function getIdComponente(nome: string) {
         const component = componente.find((comp: Componente) => comp.nome_componente === nome);
@@ -20,9 +22,17 @@ export default function CreateNotebook() {
     const nomeComp = "Notbook";
     const idComponente = getIdComponente(nomeComp);
 
-    function TabelaComponent() {
+    function handleSearch(searchTerm: string) {
+        setSearchTerm(searchTerm);
+    }
 
-        const filteredItems = items.filter((i: itemCompany) => i.component_id === idComponente);
+    function TabelaComponent() {
+        const filteredItems = items
+            .filter((i: itemCompany) => i.component_id === idComponente)
+            .filter((i: itemCompany) =>
+                i.nome_item.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                i.id.toString().includes(searchTerm)
+            );
 
         return (
             <div>
@@ -50,6 +60,10 @@ export default function CreateNotebook() {
     }
 
     return (
-        <TabelaCrud componenteTable={<TabelaComponent />} idComponente={idComponente} />
+        <TabelaCrud
+            componenteTable={<TabelaComponent />}
+            idComponente={idComponente}
+            onSearch={handleSearch}
+        />
     )
 }

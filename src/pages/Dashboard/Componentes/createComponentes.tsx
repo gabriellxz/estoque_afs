@@ -14,6 +14,7 @@ export default function CreateComponentes() {
     const { handleDelete } = useDelete();
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [openModalEditState, setModalEditState] = useState<boolean>(false);
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
     function getSelectedItem(itemId: number | undefined) {
         setSelectedItem(itemId ?? null);
@@ -35,9 +36,18 @@ export default function CreateComponentes() {
     const nomeComp = "Componentes";
     const idComponente = getIdComponente(nomeComp);
 
+    function handleSearch(searchTerm: string) {
+        setSearchTerm(searchTerm);
+    }
+
     function TabelaComponent() {
 
-        const filteredItems = items.filter((i: itemCompany) => i.component_id === idComponente);
+        const filteredItems = items
+            .filter((i: itemCompany) => i.component_id === idComponente)
+            .filter((i: itemCompany) =>
+                i.nome_item.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                i.id.toString().includes(searchTerm)
+            );
 
         return (
             <div>
@@ -72,6 +82,7 @@ export default function CreateComponentes() {
                 item={selectedItem}
                 openModalEdit={openModalEditState}
                 closeModalEdit={setModalEditState}
+                onSearch={handleSearch}
             />
         </>
     )

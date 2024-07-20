@@ -6,11 +6,13 @@ import TrashIcon from "../../../svg/trash-icon";
 import Loading from "../../../components/Loading/loading";
 import useGetItem from "../../../hooks/useGetItem";
 import useDelete from "../../../hooks/useDelete";
+import { useState } from "react";
 
 export default function CreateComputador() {
 
     const { handleDelete } = useDelete();
     const { componente, items, loading } = useGetItem();
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
     function getIdComponente(nome: string) {
         const component = componente.find((comp: Componente) => comp.nome_componente === nome);
@@ -21,9 +23,18 @@ export default function CreateComputador() {
     const idComponente = getIdComponente(nomeComp);
     // console.log(idComponente);
 
+    function handleSearch(searchTerm: string) {
+        setSearchTerm(searchTerm);
+    }
+
     function TabelaComponent() {
 
-        const filteredItems = items.filter((i: itemCompany) => i.component_id === idComponente);
+        const filteredItems = items
+            .filter((i: itemCompany) => i.component_id === idComponente)
+            .filter((i: itemCompany) =>
+                i.nome_item.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                i.id.toString().includes(searchTerm)
+            );
 
         return (
             <div>
@@ -51,6 +62,10 @@ export default function CreateComputador() {
     }
 
     return (
-        <TabelaCrud componenteTable={<TabelaComponent />} idComponente={idComponente}/>
+        <TabelaCrud
+            componenteTable={<TabelaComponent />}
+            idComponente={idComponente}
+            onSearch={handleSearch}
+        />
     )
 }

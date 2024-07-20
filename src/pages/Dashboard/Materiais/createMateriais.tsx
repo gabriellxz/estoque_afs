@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Loading from "../../../components/Loading/loading";
 import TabelaCrud from "../../../components/TabelaCrud/TabelaCrud";
 import useDelete from "../../../hooks/useDelete";
@@ -11,6 +12,7 @@ export default function CreateMateriais() {
 
     const { handleDelete } = useDelete();
     const { componente, items, loading } = useGetItem();
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
     function getIdComponente(nome: string) {
         const component = componente.find((comp: Componente) => comp.nome_componente === nome);
@@ -20,9 +22,18 @@ export default function CreateMateriais() {
     const nomeComp = "Materiais";
     const idComponente = getIdComponente(nomeComp);
 
+    function handleSearch(searchTerm: string) {
+        setSearchTerm(searchTerm);
+    }
+
     function TabelaComponent() {
 
-        const filteredItems = items.filter((i: itemCompany) => i.component_id === idComponente);
+        const filteredItems = items
+            .filter((i: itemCompany) => i.component_id === idComponente)
+            .filter((i: itemCompany) =>
+                i.nome_item.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                i.id.toString().includes(searchTerm)
+            );
 
         return (
             <div>
@@ -50,6 +61,10 @@ export default function CreateMateriais() {
     }
 
     return (
-        <TabelaCrud componenteTable={<TabelaComponent/>} idComponente={idComponente}/>
+        <TabelaCrud
+            componenteTable={<TabelaComponent />}
+            idComponente={idComponente}
+            onSearch={handleSearch}
+        />
     )
 }

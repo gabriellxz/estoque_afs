@@ -11,12 +11,14 @@ type PropsTabelaCrud = {
     item: number | null;
     openModalEdit: boolean;
     closeModalEdit: React.Dispatch<React.SetStateAction<boolean>>;
+    onSearch: (searchTerm: string) => void;
 }
 
 export default function TabelaCrud(props: PropsTabelaCrud) {
 
     // const { token } = useContext(AuthUser);
     const [openModalState, setOpenModalState] = useState<boolean>(false);
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
     function openModal(open: boolean) {
         setOpenModalState(open);
@@ -26,6 +28,11 @@ export default function TabelaCrud(props: PropsTabelaCrud) {
         setOpenModalState(close);
     }
 
+    function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setSearchTerm(event.target.value);
+        props.onSearch(event.target.value);  // Chama a função de pesquisa passada como prop
+    }
+
     return (
         <div className="w-full border-[2px] border-zinc-300 bg-white rounded-[32px] p-7 mt-5">
             <div>
@@ -33,7 +40,7 @@ export default function TabelaCrud(props: PropsTabelaCrud) {
                     <span className="w-full flex items-center gap-6">
                         <span className="flex max-w-[350px] w-full rounded-[10px] bg-white px-4 py-1 gap-5 border-[2px] border-greenAFS-100">
                             <SearchIcon />
-                            <input type="search" placeholder="Pesquisar" className="w-full placeholder:font-semibold outline-none" />
+                            <input type="search" placeholder="Pesquisar" className="w-full placeholder:font-semibold outline-none" value={searchTerm} onChange={handleSearchChange}/>
                         </span>
                         <button className="flex rounded-[10px] bg-white px-4 py-1 items-center gap-2 border-[2px] border-greenAFS-100 text-greenAFS-100 font-semibold">
                             Filtrar

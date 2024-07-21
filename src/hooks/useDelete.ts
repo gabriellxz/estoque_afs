@@ -11,7 +11,7 @@ export default function useDelete() {
             if (token) {
                 const response = await api.delete(`/Item/${id_item}`, {
                     headers: {
-                        "Authorization": "Bearer " + JSON.parse(token)
+                        "Authorization": "Bearer " + token
                     }
                 });
 

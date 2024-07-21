@@ -4,44 +4,15 @@ import componente_img from "../../../assets/estoque.png";
 // import cabos_img from "../../../assets/cabos_icon.png";
 // import materiais_img from "../../../assets/materiais_icon.png";
 import { AuthUser } from "../../../context/authContext";
-import { useContext, useEffect, useState } from "react";
-import api from "../../../config/config";
+import { useContext } from "react";
 import Loading from "../../../components/Loading/loading";
 import { Componente } from "../../../types/componente";
 import { Items } from "../../../types/items";
+import useGetAllComponentes from "../../../hooks/useGetAllComponentes";
 
 export default function Home() {
-    const { user, token } = useContext(AuthUser);
-    const [componente, setComponente] = useState<Componente[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
-
-    useEffect(() => {
-        async function getComponentes() {
-
-            setLoading(true);
-
-            try {
-                if (token) {
-                    const response = await api.get("/Componentes", {
-                        headers: {
-                            "Authorization": "Bearer " + token
-                        }
-                    })
-
-                    console.log(response);
-                    setComponente(response.data);
-                } else {
-                    console.log("Sua sessão expirou...");
-                }
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        getComponentes();
-    }, [])
+    const { user } = useContext(AuthUser);
+    const { componente, loading } = useGetAllComponentes();
 
     function calcularTotalItem(items: Items[]): number {
         return items.reduce((total, item) => total + item.estoque, 0);

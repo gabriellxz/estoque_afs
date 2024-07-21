@@ -85,7 +85,7 @@ export default function ModalCrud(props: propsModal) {
                 if (token) {
                     await api.post("/Item/create", data, {
                         headers: {
-                            "Authorization": "Bearer " + JSON.parse(token)
+                            "Authorization": "Bearer " + token
                         }
                     })
 

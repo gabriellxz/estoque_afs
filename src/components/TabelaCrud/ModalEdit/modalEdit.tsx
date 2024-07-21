@@ -86,7 +86,7 @@ export default function ModalEdit(props: propsModal) {
                 if (token) {
                     await api.put(`/Item/${props.idItem}`, data, {
                         headers: {
-                            "Authorization": "Bearer " + JSON.parse(token)
+                            "Authorization": "Bearer " + token
                         }
                     })
 

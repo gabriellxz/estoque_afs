@@ -52,8 +52,10 @@ function AuthProvider({ children }: typeChildren) {
     }, [token])
 
     function login(token: string | null) {
-        localStorage.setItem("token", JSON.stringify(token));
-        setToken(token)
+        if (token) {
+            localStorage.setItem("token", token);
+            setToken(token)
+        }
     }
 
     function logout() {

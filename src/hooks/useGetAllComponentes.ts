@@ -6,10 +6,14 @@ import api from "../config/config";
 export default function useGetAllComponentes() {
 
     const { token } = useContext(AuthUser);
+    // const token = localStorage.getItem("token");
     const [componente, setComponente] = useState<Componente[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         async function getComp() {
+            setLoading(true);
+
             try {
                 if(token) {
                     const response = await api.get("/Componentes", {headers: {
@@ -21,13 +25,16 @@ export default function useGetAllComponentes() {
                 }
             } catch (e) {
                 console.log(e);
+            } finally {
+                setLoading(false);
             }
         }
 
         getComp();
-    }, [])
+    }, [token])
 
     return {
-        componente
+        componente,
+        loading
     }
 }

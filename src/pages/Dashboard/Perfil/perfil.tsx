@@ -107,7 +107,7 @@ export default function Perfil() {
                 <span className={`pb-1 w-full max-w-[100px] ${location.pathname === "/dashboard/perfil" ? "font-bold text-greenAFS-200 border-b-2 border-green-950" : ""}`}>Perfil</span>
                 <span className={`pb-1 w-full max-w-[100px] ${location.pathname === "/dashboard/segurança" ? "font-bold text-greenAFS-200 border-b-2 border-green-950" : ""}`}>Segurança</span>
             </div>
-            <div className="flex flex-row flex-col pt-[40px]">
+            <div className="flex sm:flex-row flex-col pt-[40px]">
                 <div className="flex justify-center items-center px-[50px]">
                     <img src={perfil_img} alt="foto de perfil do usuário" className="sm:w-[130px]" />
                 </div>

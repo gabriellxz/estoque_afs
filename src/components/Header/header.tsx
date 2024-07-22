@@ -2,6 +2,7 @@ import user_icon from "../../assets/user_icon.png";
 import { useContext } from "react";
 import { AuthUser } from "../../context/authContext";
 import BarsIcon from "../../svg/bars-icon";
+import { Link } from "react-router-dom";
 
 type propsBarsIcon = {
     toggleAside: () => void;
@@ -19,7 +20,7 @@ export default function Header(props: propsBarsIcon) {
                     <BarsIcon />
                 </span>
             </div>
-            <div className="flex gap-[40px] text-zinc-600">
+            <Link to={"/dashboard/perfil"} className="flex gap-[40px] text-zinc-600">
                 <div className="hidden sm:flex sm:flex-col text-right justify-center">
                     <span className="text-xl font-semibold">{user?.name}</span>
                     <span className="text-sm">{user?.email}</span>
@@ -27,7 +28,7 @@ export default function Header(props: propsBarsIcon) {
                 <div>
                     <img src={user_icon} alt="user_icon" className="w-[50px] cursor-pointer" />
                 </div>
-            </div>
+            </Link>
         </header>
     )
 }

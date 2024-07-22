@@ -121,7 +121,7 @@ export default function Login(): JSX.Element {
                     <form className="w-full mt-[83px] flex flex-col gap-[60px] p-3" onSubmit={submitLogin}>
                         <div className="w-full">
                             <Input
-                                className="p-2 border-b border-black"
+                                className="max-w-[430px] p-2 border-b border-black"
                                 placeholder="Usuário"
                                 type="email"
                                 value={email}
@@ -132,7 +132,7 @@ export default function Login(): JSX.Element {
                         <div className="w-full">
                             <div className="max-w-[430px] flex items-center p-2 border-b border-black gap-3">
                                 <Input
-                                    className="border-r border-zinc-500"
+                                    className="max-w-[430px] border-r border-zinc-500"
                                     placeholder="Senha"
                                     type={showPassword ? 'password' : 'text'}
                                     value={senha}

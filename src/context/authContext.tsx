@@ -15,6 +15,7 @@ type userDecoded = {
     email: string;
     senha: string;
     exp: number;
+    role: number;
 }
 
 type typeChildren = {

@@ -10,6 +10,7 @@ import CreateComputador from "./pages/Dashboard/Computador/createComputador";
 import CreateNotebook from "./pages/Dashboard/Notebook/createNotebook";
 import CreateMateriais from "./pages/Dashboard/Materiais/createMateriais";
 import CreateCabos from "./pages/Dashboard/Cabos/createCabos";
+import Perfil from "./pages/Dashboard/Perfil/perfil";
 
 function App(): JSX.Element {
 
@@ -23,13 +24,14 @@ function App(): JSX.Element {
               <Dashboard />
             </Authenticated>
           }>
-              <Route index element={<Home/>}/>
-              <Route path="início" element={<Home/>}/>
-              <Route path="criar-componente" element={<CreateComponentes/>}/>
-              <Route path="criar-computador" element={<CreateComputador/>}/>
-              <Route path="criar-notebook" element={<CreateNotebook/>}/>
-              <Route path="criar-material" element={<CreateMateriais/>}/>
-              <Route path="criar-cabos" element={<CreateCabos/>}/>
+            <Route index element={<Home />} />
+            <Route path="início" element={<Home />} />
+            <Route path="criar-componente" element={<CreateComponentes />} />
+            <Route path="criar-computador" element={<CreateComputador />} />
+            <Route path="criar-notebook" element={<CreateNotebook />} />
+            <Route path="criar-material" element={<CreateMateriais />} />
+            <Route path="criar-cabos" element={<CreateCabos />} />
+            <Route path="perfil" element={<Perfil />} />
           </Route>
         </Routes>
       </BrowserRouter>

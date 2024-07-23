@@ -1,24 +1,24 @@
 import { ChangeEvent, SyntheticEvent, useContext, useEffect, useState } from "react";
-import BackSpaceIcon from "../../../svg/backspace-icon";
 import { AuthUser } from "../../../context/authContext";
 import api from "../../../config/config";
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from "react-toastify";
 import Loading from "../../Loading/loading";
 import { Category } from "../../../types/category";
+import { itemCompany } from "../../../types/itemCompany";
 
 type propsModal = {
     closeModal: React.Dispatch<React.SetStateAction<boolean>>;
     id: number | null;
     nomeTabela: string;
-    idItem: number | null;
+    idItem: itemCompany | null;
 }
 
 export default function ModalEdit(props: propsModal) {
 
     const { token } = useContext(AuthUser);
-    const [nome, setNome] = useState<string>();
-    const [estoque, setEstoque] = useState<number>();
+    const [nome, setNome] = useState<string | undefined>(props.idItem?.nome_item);
+    const [estoque, setEstoque] = useState<number | undefined>(props.idItem?.estoque);
     const [categoryValue, setCategoryValue] = useState<number>();
     const [loading, setLoading] = useState<boolean>(false);
     const [category, setCategory] = useState<Category[]>([]);
@@ -69,6 +69,8 @@ export default function ModalEdit(props: propsModal) {
         e.preventDefault();
         setLoading(true);
 
+        console.log("id do item: ", props.idItem);
+
         if (
             nome !== "" &&
             estoque !== undefined &&
@@ -84,7 +86,7 @@ export default function ModalEdit(props: propsModal) {
 
             try {
                 if (token) {
-                    await api.put(`/Item/${props.idItem}`, data, {
+                    await api.put(`/Item/${props.idItem?.id}`, data, {
                         headers: {
                             "Authorization": "Bearer " + token
                         }
@@ -164,15 +166,12 @@ export default function ModalEdit(props: propsModal) {
                     <div className="flex w-full items-center gap-5">
                         <span className="text-zinc-400">Nome</span>
                         <div className="flex w-full items-center py-2 px-3 border border-greenAFS-200 rounded-lg">
-                            <input type="text" placeholder="Digite o novo item" className="w-full outline-none border-r border-greenAFS-200" onChange={handleNome} />
-                            <span className="pl-4">
-                                <BackSpaceIcon />
-                            </span>
+                            <input value={nome} type="text" placeholder="Digite o novo item" className="w-full outline-none border-r border-greenAFS-200" onChange={handleNome} />
                         </div>
                     </div>
                     <div className="flex w-full items-center gap-5">
                         <span className="text-zinc-400">Estoque</span>
-                        <input type="number" className="sm:max-w-[200px] w-full py-2 px-3 border border-greenAFS-200 rounded-lg outline-none" onChange={handleEstoque} />
+                        <input value={estoque} type="number" className="sm:max-w-[200px] w-full py-2 px-3 border border-greenAFS-200 rounded-lg outline-none" onChange={handleEstoque} />
                     </div>
                 </div>
                 <div className="flex justify-between items-center p-5">

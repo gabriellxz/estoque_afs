@@ -4,11 +4,12 @@ import { useState } from "react";
 import ModalCrud from "./ModalCrud/modalCrud";
 import { ToastContainer } from "react-toastify";
 import ModalEdit from "./ModalEdit/modalEdit";
+import { itemCompany } from "../../types/itemCompany";
 
 type PropsTabelaCrud = {
     componenteTable: any;
     idComponente: number | null;
-    item: number | null;
+    item: itemCompany | null;
     openModalEdit: boolean;
     closeModalEdit: React.Dispatch<React.SetStateAction<boolean>>;
     onSearch: (searchTerm: string) => void;

@@ -1,5 +1,4 @@
 import { ChangeEvent, SyntheticEvent, useContext, useEffect, useState } from "react";
-import BackSpaceIcon from "../../../svg/backspace-icon";
 import { AuthUser } from "../../../context/authContext";
 import api from "../../../config/config";
 import 'react-toastify/dist/ReactToastify.css';
@@ -164,9 +163,6 @@ export default function ModalCrud(props: propsModal) {
                         <span className="text-zinc-400">Nome</span>
                         <div className="flex w-full items-center py-2 px-3 border border-greenAFS-200 rounded-lg">
                             <input type="text" placeholder="Digite o novo item" className="w-full outline-none border-r border-greenAFS-200" onChange={handleNome} />
-                            <span className="pl-4">
-                                <BackSpaceIcon />
-                            </span>
                         </div>
                     </div>
                     <div className="flex w-full items-center gap-5">

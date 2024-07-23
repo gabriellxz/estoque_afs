@@ -14,14 +14,14 @@ export default function CreateComputador() {
     const { componente, items, loading } = useGetItem();
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [openModalEditState, setModalEditState] = useState<boolean>(false);
-    const [selectedItem, setSelectedItem] = useState<number | null>(null);
+    const [selectedItem, setSelectedItem] = useState<itemCompany | null>(null);
 
     function getIdComponente(nome: string) {
         const component = componente.find((comp: Componente) => comp.nome_componente === nome);
         return component ? component.id : null;
     }
 
-    function getSelectedItem(itemId: number | undefined) {
+    function getSelectedItem(itemId: itemCompany | undefined) {
         setSelectedItem(itemId ?? null);
         setModalEditState(true);
         // console.log(selectedItem);
@@ -54,7 +54,7 @@ export default function CreateComputador() {
                                     <span className="w-full flex justify-center">{i.id}</span>
                                     <span className="w-full flex justify-center">{i.nome_item}</span>
                                     <span className="w-full flex justify-center">{i.estoque}</span>
-                                    <span className="w-full flex justify-center" onClick={() => getSelectedItem(i.id)}>
+                                    <span className="w-full flex justify-center" onClick={() => getSelectedItem(i)}>
                                         <EditIcon />
                                     </span>
                                     <span className="w-full flex justify-center" onClick={() => handleDelete(i.id)}>

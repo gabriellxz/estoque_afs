@@ -13,7 +13,7 @@ export default function CreateNotebook() {
     const { handleDelete, loadingDelete } = useDelete();
     const { componente, items, loading } = useGetItem();
     const [openModalEditState, setModalEditState] = useState<boolean>(false);
-    const [selectedItem, setSelectedItem] = useState<number | null>(null);
+    const [selectedItem, setSelectedItem] = useState<itemCompany | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>("");
 
     function getIdComponente(nome: string) {
@@ -21,7 +21,7 @@ export default function CreateNotebook() {
         return component ? component.id : null;
     }
 
-    function getSelectedItem(itemId: number | undefined) {
+    function getSelectedItem(itemId: itemCompany | undefined) {
         setSelectedItem(itemId ?? null);
         setModalEditState(true);
         // console.log(selectedItem);
@@ -52,7 +52,7 @@ export default function CreateNotebook() {
                                     <span className="w-full flex justify-center">{i.id}</span>
                                     <span className="w-full flex justify-center">{i.nome_item}</span>
                                     <span className="w-full flex justify-center">{i.estoque}</span>
-                                    <span className="w-full flex justify-center" onClick={() => getSelectedItem(i.id)}>
+                                    <span className="w-full flex justify-center" onClick={() => getSelectedItem(i)}>
                                         <EditIcon />
                                     </span>
                                     <span className="w-full flex justify-center" onClick={() => handleDelete}>

@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 export default function CreateComponentes() {
 
     const { componente, items, loading } = useGetItem();
-    const { handleDelete } = useDelete();
+    const { handleDelete, loadingDelete } = useDelete();
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     const [openModalEditState, setModalEditState] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>("");
@@ -63,7 +63,9 @@ export default function CreateComponentes() {
                                         <EditIcon />
                                     </span>
                                     <span className="w-full flex justify-center" onClick={() => handleDelete(i.id)}>
-                                        <TrashIcon />
+                                        {
+                                            loadingDelete ? <Loading /> : <TrashIcon />
+                                        }
                                     </span>
                                 </div>
                             ))

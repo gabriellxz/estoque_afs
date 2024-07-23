@@ -10,7 +10,7 @@ import { itemCompany } from "../../../types/itemCompany";
 
 export default function CreateMateriais() {
 
-    const { handleDelete } = useDelete();
+    const { handleDelete, loadingDelete } = useDelete();
     const { componente, items, loading } = useGetItem();
     const [openModalEditState, setModalEditState] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
@@ -57,7 +57,9 @@ export default function CreateMateriais() {
                                         <EditIcon />
                                     </span>
                                     <span className="w-full flex justify-center" onClick={() => handleDelete}>
-                                        <TrashIcon />
+                                        {
+                                            loadingDelete ? <Loading /> : <TrashIcon />
+                                        }
                                     </span>
                                 </div>
                             ))

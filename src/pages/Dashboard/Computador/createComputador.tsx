@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export default function CreateComputador() {
 
-    const { handleDelete } = useDelete();
+    const { handleDelete, loadingDelete } = useDelete();
     const { componente, items, loading } = useGetItem();
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [openModalEditState, setModalEditState] = useState<boolean>(false);
@@ -58,7 +58,9 @@ export default function CreateComputador() {
                                         <EditIcon />
                                     </span>
                                     <span className="w-full flex justify-center" onClick={() => handleDelete(i.id)}>
-                                        <TrashIcon />
+                                        {
+                                            loadingDelete ? <Loading /> : <TrashIcon />
+                                        }
                                     </span>
                                 </div>
                             ))

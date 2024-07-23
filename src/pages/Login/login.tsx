@@ -6,6 +6,7 @@ import api from "../../config/config.tsx";
 import { AxiosError, AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthUser } from "../../context/authContext.tsx";
+import Loading from "../../components/Loading/loading.tsx";
 
 type status = {
     type: string;
@@ -113,10 +114,10 @@ export default function Login(): JSX.Element {
             <div className="w-full flex justify-center h-screen items-center">
                 <div className="w-full lg:ml-[75px]">
                     <div className="w-full flex flex-col">
-                        <img src={logo_afs} alt="logo AFS" className="max-w-[278px] m-full p-3" />
-                        {status.loading ? (<span>Acessando...</span>) : (
+                        <img src={logo_afs} alt="logo AFS" className="max-w-[278px] m-full" />
+                        {
                             status.type === "error" ? <span className="text-red-600">{status.message}</span> : ""
-                        )}
+                        }
                     </div>
                     <form className="w-full mt-[83px] flex flex-col gap-[60px] p-3" onSubmit={submitLogin}>
                         <div className="w-full">
@@ -145,9 +146,13 @@ export default function Login(): JSX.Element {
                             </div>
                         </div>
                         <div className="w-full mt-8">
-                            <button className="text-[20px] font-bold max-w-[430px] w-full text-white bg-greenAFS-200 py-2 rounded-xl">
-                                Entrar
-                            </button>
+                            {
+                                status.loading ? <Loading /> : (
+                                    <button className="text-[20px] font-bold max-w-[430px] w-full text-white bg-greenAFS-200 py-2 rounded-xl">
+                                        Entrar
+                                    </button>
+                                )
+                            }
                         </div>
                     </form>
                 </div>

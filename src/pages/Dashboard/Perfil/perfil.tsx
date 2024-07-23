@@ -106,6 +106,8 @@ export default function Perfil() {
                 progress: undefined,
                 theme: "colored"
             });
+
+            setLoading(false);
         }
 
     }

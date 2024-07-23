@@ -6,10 +6,11 @@ type contextAuth = {
     authenticated: boolean;
     login: (token: string | null) => void;
     logout: () => void;
+    newUser: (user: userDecoded) => void;
     user: userDecoded | null;
 }
 
-type userDecoded = {
+export type userDecoded = {
     id: number;
     name: string;
     email: string;
@@ -66,8 +67,12 @@ function AuthProvider({ children }: typeChildren) {
         localStorage.removeItem("token");
     }
 
+    function newUser(user:userDecoded) {
+        setUser(user);
+    }
+
     return (
-        <AuthUser.Provider value={{ authenticated, login, logout, token, user }}>
+        <AuthUser.Provider value={{ authenticated, login, logout, token, user, newUser }}>
             {children}
         </AuthUser.Provider>
     )
